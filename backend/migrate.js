@@ -1,15 +1,17 @@
-// Load environment variables from .env file
-require("dotenv").config();
-
 const fs = require("node:fs");
 const path = require("node:path");
+
+// Load environment variables from .env file from backend namespace
+const dotenv = require("dotenv");
+
+const envPath = path.resolve(__dirname, ".env");
+dotenv.config({ path: envPath });
 
 // Build the path to the schema SQL file
 const schema = path.join(__dirname, "database", "schema.sql");
 
 // Get database connection details from .env file
 const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
-
 // Update the database schema
 const mysql = require("mysql2/promise");
 

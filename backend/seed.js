@@ -17,17 +17,89 @@ const seed = async () => {
 
     /* ************************************************************************* */
 
-    // Generating Seed Data
+    // Truncate tables (remove existing data)
+    await database.query("truncate projets");
+    await database.query("truncate technologies");
+    await database.query("truncate experiences");
+    await database.query("truncate competences");
+    await database.query("truncate contacts");
+    await database.query("truncate utilisateurs");
 
-    // Optional: Truncate tables (remove existing data)
-    await database.query("truncate item");
+    /* ************************************************************************* */
 
-    // Insert fake data into the 'item' table
+    // Insert fake data into the 'projets' table
     for (let i = 0; i < 10; i += 1) {
       queries.push(
-        database.query("insert into item(title) values (?)", [
+        database.query(
+          "INSERT INTO projets (label, description, date_start, date_end, is_done) VALUES (?, ?, ?, ?, ?)",
+          [
+            faker.lorem.word(),
+            faker.lorem.sentence(),
+            faker.date.past(),
+            faker.date.future(),
+            faker.datatype.boolean(),
+          ]
+        )
+      );
+    }
+
+    // Insert fake data into the 'technologies' table
+    for (let i = 0; i < 5; i += 1) {
+      queries.push(
+        database.query("INSERT INTO technologies (label) VALUES (?)", [
           faker.lorem.word(),
         ])
+      );
+    }
+
+    // Insert fake data into the 'experiences' table
+    for (let i = 0; i < 8; i += 1) {
+      queries.push(
+        database.query(
+          "INSERT INTO experiences (label, description, company, date_start, date_end) VALUES (?, ?, ?, ?, ?)",
+          [
+            faker.lorem.word(),
+            faker.lorem.sentence(),
+            faker.company.name(),
+            faker.date.past(),
+            faker.date.future(),
+          ]
+        )
+      );
+    }
+
+    // Insert fake data into the 'competences' table
+    for (let i = 0; i < 6; i += 1) {
+      queries.push(
+        database.query("INSERT INTO competences (label) VALUES (?)", [
+          faker.lorem.word(),
+        ])
+      );
+    }
+
+    // Insert fake data into the 'contacts' table
+    for (let i = 0; i < 7; i += 1) {
+      queries.push(
+        database.query(
+          "INSERT INTO contacts (objet, message, date_reception) VALUES (?, ?, ?)",
+          [faker.lorem.word(), faker.lorem.sentence(), faker.date.past()]
+        )
+      );
+    }
+
+    // Insert fake data into the 'utilisateurs' table
+    for (let i = 0; i < 5; i += 1) {
+      queries.push(
+        database.query(
+          "INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role) VALUES (?, ?, ?, ?, ?)",
+          [
+            faker.person.lastName(),
+            faker.person.firstName(),
+            faker.internet.email(),
+            faker.internet.password(),
+            "admin",
+          ]
+        )
       );
     }
 
